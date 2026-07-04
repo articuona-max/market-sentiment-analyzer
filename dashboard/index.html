@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Sentiment Analyzer — Dashboard</title>
+    <meta name="description" content="Real-time market sentiment analysis dashboard with temporal decay analytics and cross-source context fusion.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Animated background orbs -->
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                            <path d="M4 20L10 12L16 16L24 6" stroke="url(#grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M18 6H24V12" stroke="url(#grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <defs>
+                                <linearGradient id="grad" x1="4" y1="6" x2="24" y2="20">
+                                    <stop stop-color="#6366f1"/>
+                                    <stop offset="1" stop-color="#06b6d4"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1>Market Sentinel</h1>
+                        <span class="subtitle">Real-Time Sentiment Intelligence</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="health-badge" id="health-badge">
+                    <span class="health-dot"></span>
+                    <span class="health-text">Connecting...</span>
+                </div>
+                <span class="last-updated" id="last-updated">—</span>
+            </div>
+        </header>
+
+        <!-- Primary Sentiment Display -->
+        <section class="hero-section">
+            <div class="sentiment-hero glass-card" id="sentiment-hero">
+                <div class="hero-label">DOMINANT MARKET SENTIMENT</div>
+                <div class="hero-sentiment" id="hero-sentiment">NEUTRAL</div>
+                <div class="hero-bar-container">
+                    <div class="hero-bar">
+                        <div class="hero-bar-fill" id="hero-bar-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="hero-bar-labels">
+                        <span>BEARISH</span>
+                        <span>NEUTRAL</span>
+                        <span>BULLISH</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metric Cards -->
+        <section class="metrics-grid">
+            <div class="metric-card glass-card">
+                <div class="metric-icon metric-icon-analyzed">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                    </svg>
+                </div>
+                <div class="metric-data">
+                    <div class="metric-value" id="total-analyzed">0</div>
+                    <div class="metric-label">Alerts Analyzed</div>
+                </div>
+            </div>
+            <div class="metric-card glass-card">
+                <div class="metric-icon metric-icon-cache">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                </div>
+                <div class="metric-data">
+                    <div class="metric-value"><span id="cache-hit-rate">0</span>%</div>
+                    <div class="metric-label">Cache Hit Rate</div>
+                </div>
+            </div>
+            <div class="metric-card glass-card">
+                <div class="metric-icon metric-icon-exposure">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+                    </svg>
+                </div>
+                <div class="metric-data">
+                    <div class="metric-value" id="avg-exposure">0.00</div>
+                    <div class="metric-label">Avg Exposure</div>
+                </div>
+            </div>
+            <div class="metric-card glass-card">
+                <div class="metric-icon metric-icon-confidence">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
+                <div class="metric-data">
+                    <div class="metric-value" id="avg-confidence">0.00</div>
+                    <div class="metric-label">Avg Confidence</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Distribution and Feed -->
+        <section class="content-grid">
+            <!-- Sentiment Distribution -->
+            <div class="distribution-card glass-card">
+                <h2 class="card-title">Sentiment Distribution</h2>
+                <div class="distribution-bars">
+                    <div class="dist-row">
+                        <div class="dist-label">
+                            <span class="dist-dot bullish-dot"></span> BULLISH
+                        </div>
+                        <div class="dist-bar-track">
+                            <div class="dist-bar-fill bullish-fill" id="bullish-bar" style="width: 0%"></div>
+                        </div>
+                        <span class="dist-count" id="bullish-count">0</span>
+                    </div>
+                    <div class="dist-row">
+                        <div class="dist-label">
+                            <span class="dist-dot neutral-dot"></span> NEUTRAL
+                        </div>
+                        <div class="dist-bar-track">
+                            <div class="dist-bar-fill neutral-fill" id="neutral-bar" style="width: 0%"></div>
+                        </div>
+                        <span class="dist-count" id="neutral-count">0</span>
+                    </div>
+                    <div class="dist-row">
+                        <div class="dist-label">
+                            <span class="dist-dot bearish-dot"></span> BEARISH
+                        </div>
+                        <div class="dist-bar-track">
+                            <div class="dist-bar-fill bearish-fill" id="bearish-bar" style="width: 0%"></div>
+                        </div>
+                        <span class="dist-count" id="bearish-count">0</span>
+                    </div>
+                </div>
+
+                <!-- System components status -->
+                <h2 class="card-title" style="margin-top: 2rem;">System Components</h2>
+                <div class="components-grid" id="components-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Activity Feed -->
+            <div class="feed-card glass-card">
+                <h2 class="card-title">Live Analysis Feed</h2>
+                <div class="feed-list" id="feed-list">
+                    <div class="feed-empty">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        <p>No analyses yet. Send an alert to <code>POST /analyze</code> to begin.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <span>Market Sentiment Analyzer v1.0.0</span>
+            <span>·</span>
+            <a href="/docs" target="_blank">API Docs</a>
+            <span>·</span>
+            <a href="/health" target="_blank">Health</a>
+        </footer>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
